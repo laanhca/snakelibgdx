@@ -15,6 +15,7 @@ public class BodySnake extends GameObject{
         super(textureRegion, x, y);
         this.dir = dir;
         isBreak=false;
+        sprite.setOriginCenter();
     }
     public void setSprite(TextureRegion textureRegion){
         this.textureRegion= textureRegion;
@@ -42,10 +43,10 @@ public class BodySnake extends GameObject{
         // setPosition(x + SCALE, y);
         }
     }
-    public BodySnake originCenter() {
-        sprite.setOriginCenter();
-        return this;
-    }
+//    public BodySnake originCenter() {
+//        sprite.setOriginCenter();
+//        return this;
+//    }
 
     public boolean isBreak() {
         return isBreak;

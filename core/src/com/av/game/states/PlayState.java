@@ -7,11 +7,14 @@ import com.av.game.entities.Player;
 import com.av.game.handlers.AVImgButton;
 import com.av.game.handlers.AVTextButton;
 import com.av.game.main.Direction;
+import com.av.game.main.GameConfig;
 import com.av.game.main.GameStateManager;
 import com.av.game.main.MyGdxGame;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -20,6 +23,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
+import static com.av.game.main.MyGdxGame.SCALE;
+
 
 public class PlayState extends GameState {
     private AVImgButton exitS;
@@ -27,7 +32,7 @@ public class PlayState extends GameState {
     private AVImgButton leftB;
     private AVImgButton upB;
     private AVImgButton downB;
-    private AVTextButton score;
+//    private AVTextButton score;
     private int scoreS;
     private BitmapFont font;
 
@@ -37,26 +42,32 @@ public class PlayState extends GameState {
     public static float tileMapHeight;
     public static float tileSize;
     private TiledMapRenderer tmRenderer;
-
     private GameObject bunny;
     private Player snake;
     private boolean bunnyLost;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        exitS = new AVImgButton("Close", 1050, 550, 50, 50, cam);
-        leftB = new AVImgButton("left", 64, 128, 64, 64, cam);
-        rightB = new AVImgButton("right", 192, 128, 64, 64, cam);
-        upB = new AVImgButton("up", 128, 192, 64, 64, cam);
-        downB = new AVImgButton("down", 128, 64, 64, 64, cam);
-        score = new AVTextButton(10, 576, 20, 20, cam);
+        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        leftB = new AVImgButton("left", SCALE, SCALE*2+SCALE, 2*SCALE, 2*SCALE, cam);
+        rightB = new AVImgButton("right", SCALE*4+SCALE, SCALE*2+SCALE, 2*SCALE, 2*SCALE, cam);
+        upB = new AVImgButton("up", SCALE*2+SCALE, SCALE*4+SCALE, 2*SCALE, 2*SCALE, cam);
+        downB = new AVImgButton("down", SCALE*2+SCALE, SCALE, 2*SCALE, 2*SCALE, cam);
+//        score = new AVTextButton(10, GameConfig.GHEIGHT-SCALE-10, SCALE, SCALE, cam);
         scoreS = 0;
-        font = new BitmapFont();
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AB.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 64;
+
+       // font.setColor(Color.BLACK);
+        font= generator.generateFont(parameter);
         font.setColor(Color.BLACK);
+
         tileMap = new TiledMap();
         loadMap();
         bunnyLost=false;
-       snake = new Player(MyGdxGame.content.getAtlas("snakeset"), 64, 128);
+       snake = new Player(MyGdxGame.content.getAtlas("snakeset"), SCALE, SCALE*3);
        // snake.setRotation(90); // quay lên
         bunny = new GameObject(MyGdxGame.content.getAtlas("snakeset").findRegion("bunny"), foodRandX(), foodRandY());
         System.out.println(bunny.getX()+"  "+bunny.getY());
@@ -104,13 +115,17 @@ public class PlayState extends GameState {
         downB.update(dt);
         randomBunny();
         snake.update(dt);
+
         if(snake.checkCol(bunny)==true){
+            MyGdxGame.content.getSound("levelselect").play();
             scoreS++;
             bunnyLost=true;
             snake.grow();
-            MyGdxGame.content.loadSound("sfx/collect.wav");
+
             System.out.println(scoreS);}
-        if(snake.die()==true)gsm.pushState(GameStateManager.MENU);
+        if(snake.die()==true){
+            MyGdxGame.content.getSound("gameover").play();
+            gsm.pushState(GameStateManager.MENU);}
 
 
     }
@@ -120,23 +135,33 @@ public class PlayState extends GameState {
 
         sb.begin();
         exitS.render(sb);
-
         tmRenderer.setView(cam);
         tmRenderer.render();
-        if(bunnyLost==false)bunny.draw(sb);
+
 
        snake.render(sb);
+        if(bunnyLost==false)bunny.draw(sb);
         rightB.render(sb);
         leftB.render(sb);
         upB.render(sb);
         downB.render(sb);
-        score.render(sb, "score");
-        font.draw(sb, String.valueOf(scoreS), 50, 570);
+//        score.render(sb, "score");
+        font.draw(sb,"Score: "+ String.valueOf(scoreS), 2*SCALE, GameConfig.GHEIGHT-2*SCALE);
         sb.end();
     }
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
 
     }
 
@@ -150,22 +175,23 @@ public class PlayState extends GameState {
         }
         MapProperties prop = tileMap.getProperties();
         tileSize = (int) tileMap.getProperties().get("tilewidth");
-        tileMapWidth = (int) prop.get("width", Integer.class)*tileSize;
+        //tileMapWidth = (int) prop.get("width", Integer.class)*tileSize;
+        tileMapWidth = tileMap.getProperties().get("width",Integer.class)*tileSize;
         //tileMapWidth = 18*tileSize;
         tileMapHeight = (int) prop.get("height", Integer.class)*tileSize;
         //tileMapHeight = 10*tileSize;
 
 
-        tmRenderer = new OrthogonalTiledMapRenderer(tileMap);
+        tmRenderer = new OrthogonalTiledMapRenderer(tileMap,GameConfig.GWIDTH/tileMapWidth);
 
 
     }
     private float foodRandX() {
-        return MathUtils.random(1, 12) * 64;
+        return MathUtils.random(1, 12) * SCALE;
     }
 
     private float foodRandY() {
-        return MathUtils.random(1, 8) * 64;
+        return MathUtils.random(1, 8) * SCALE;
     }
     private void randomBunny(){
         if(bunnyLost==true){

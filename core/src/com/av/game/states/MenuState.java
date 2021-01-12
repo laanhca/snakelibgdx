@@ -2,6 +2,7 @@ package com.av.game.states;
 
 import com.av.game.handlers.AVImgButton;
 import com.av.game.handlers.AVTextButton;
+import com.av.game.main.GameConfig;
 import com.av.game.main.GameStateManager;
 import com.av.game.main.MyGdxGame;
 import com.badlogic.gdx.Gdx;
@@ -15,11 +16,11 @@ public class MenuState extends GameState{
     //AVImgButton exit;
     public MenuState(GameStateManager gsm) {
         super(gsm);
-        nameGame = new AVTextButton(225, 350, 100, 100, cam);
-        play = new AVTextButton(250,200,50,50,cam);
-        achivement = new AVImgButton("Achievements", 320, 50, 100, 100, cam);
-        levels = new AVImgButton("Levels", 520, 50, 100, 100, cam);
-        setting = new AVImgButton("Settings", 720, 50, 100, 100, cam);
+        nameGame = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/10*5)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        play = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/15*11)/2-GameConfig.GWIDTH/15,GameConfig.GHEIGHT/3.5f,GameConfig.GWIDTH/15,GameConfig.GWIDTH/15,cam);
+        achivement = new AVImgButton("Achievements", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*4)/2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        levels = new AVImgButton("Levels", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*3)/2+GameConfig.GWIDTH/10, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        setting = new AVImgButton("Settings", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*2)/2+GameConfig.GWIDTH/10*2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         //exit = new AVImgButton("Close", 1050, 550, 50, 50, cam);
 
     }
@@ -28,6 +29,7 @@ public class MenuState extends GameState{
     public void handleInput() {
         if (play.isClicked()==true){
             MyGdxGame.content.getSound("direct").play();
+            MyGdxGame.content.getMusic("bbsong").setVolume(0.25f);
             gsm.pushState(GameStateManager.PLAY);
         }
 //        if(exit.isClicked()==true){
@@ -38,7 +40,8 @@ public class MenuState extends GameState{
             MyGdxGame.content.getSound("direct").play();
             gsm.pushState(GameStateManager.SETTING);
 
-        }if(achivement.isClicked()==true){
+        }
+        if(achivement.isClicked()==true){
             MyGdxGame.content.getSound("direct").play();
             gsm.pushState(GameStateManager.ACHIVEMENT);
 
@@ -74,6 +77,16 @@ public class MenuState extends GameState{
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
 
     }
 }

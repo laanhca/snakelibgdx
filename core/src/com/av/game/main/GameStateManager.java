@@ -1,5 +1,6 @@
 package com.av.game.main;
 
+import com.av.game.states.AchievementState;
 import com.av.game.states.GameState;
 import com.av.game.states.LevelSelect;
 import com.av.game.states.MenuState;
@@ -12,12 +13,13 @@ public class GameStateManager {
     private MyGdxGame game;
 
     private Stack<GameState> gameStates;
+
  //   public  static final int SCALE = 64;
     public static final int MENU = 83774392;
     public static final int PLAY = 388031654;
     public static final int LEVEL_SELECT = -9238732;
     public static final int SETTING = -1212333;
-    public static final int ACHIVEMENT = -1212333;
+    public static final int ACHIVEMENT = -1002333;
 
     public GameStateManager(MyGdxGame game) {
         this.game = game;
@@ -40,6 +42,7 @@ public class GameStateManager {
         if(state == PLAY) return new PlayState(this);
         if(state == LEVEL_SELECT) return new LevelSelect(this);
         if(state == SETTING) return new SettingState(this);
+        if(state == ACHIVEMENT) return new AchievementState(this);
         return null;
     }
 
@@ -55,5 +58,14 @@ public class GameStateManager {
     public void popState() {
         GameState g = gameStates.pop();
         g.dispose();
+    }
+    public void pause(){
+        pauseState();
+    }
+    public void pauseState(){
+            gameStates.peek().pause();
+    }
+    public void resume(){
+        gameStates.peek().resume();
     }
 }

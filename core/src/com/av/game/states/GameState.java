@@ -11,6 +11,7 @@ public abstract class GameState {
     protected OrthographicCamera cam;
     protected SpriteBatch sb;
     public GameState(GameStateManager gsm) {
+
         this.gsm = gsm;
         this.game= gsm.game();
         this.cam = game.getCamera();
@@ -22,4 +23,8 @@ public abstract class GameState {
     public abstract void update(float dt);
     public abstract void render();
     public abstract void dispose() ;
+    public abstract void pause();
+    public abstract void resume() ;
+
+
 }

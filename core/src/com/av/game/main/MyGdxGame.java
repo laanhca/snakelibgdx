@@ -22,8 +22,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameStateManager gsm;
 	OrthographicCamera cam;
 	Viewport viewport;
+
+
 	public static Content content;
-	public static final float SCALE= 64;
+	public static final int SCALE= 64;
+
 	@Override
 	public void create () {
 		Gdx.input.setInputProcessor(new AVInputProcessor());
@@ -46,13 +49,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		sb = new SpriteBatch();
 		cam = new OrthographicCamera();
 		gsm = new GameStateManager(this);
-		viewport = new ExtendViewport(832, 640, cam);
+		cam.setToOrtho(false, GameConfig.GWIDTH, GameConfig.GHEIGHT);
+		//viewport = new ExtendViewport(GameConfig.GWIDTH, GameConfig.GHEIGHT, cam);
+		viewport = new ExtendViewport(GameConfig.GWIDTH-SCALE/2, GameConfig.GHEIGHT-SCALE/2, cam);
+
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height, true);
 		sb.setProjectionMatrix(cam.combined);
+
 	}
 
 	@Override
@@ -63,10 +70,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		gsm.render();
 		AVInput.update();
 	}
-	
+
+	@Override
+	public void pause() {
+		gsm.pause();
+	}
+
+	@Override
+	public void resume() {
+		gsm.resume();
+	}
+
 	@Override
 	public void dispose () {
 	}
 	public SpriteBatch getSpriteBatch() { return sb; }
 	public OrthographicCamera getCamera() { return cam; }
+
 }

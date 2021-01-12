@@ -1,6 +1,7 @@
 package com.av.game.states;
 
 import com.av.game.handlers.AVImgButton;
+import com.av.game.main.GameConfig;
 import com.av.game.main.GameStateManager;
 import com.av.game.main.MyGdxGame;
 
@@ -8,7 +9,7 @@ public class SettingState extends GameState{
     AVImgButton exitS;
     public SettingState(GameStateManager gsm) {
         super(gsm);
-        exitS = new AVImgButton("Close", 1050, 550, 50, 50, cam);
+        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
     }
 
     @Override
@@ -35,6 +36,16 @@ public class SettingState extends GameState{
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
 
     }
 }

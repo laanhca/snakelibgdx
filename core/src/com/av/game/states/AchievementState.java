@@ -1,14 +1,35 @@
 package com.av.game.states;
 
 import com.av.game.handlers.AVImgButton;
+import com.av.game.main.GameConfig;
 import com.av.game.main.GameStateManager;
 import com.av.game.main.MyGdxGame;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.FileHandler;
 
 public class AchievementState extends GameState{
-    AVImgButton exitS;
+    private AVImgButton exitS;
+    private BitmapFont font;
+    private String topScore;
+
     public AchievementState(GameStateManager gsm) {
         super(gsm);
-        exitS = new AVImgButton("Close", 1050, 550, 50, 50, cam);
+        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AB.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 64;
+        font= generator.generateFont(parameter);
+        font.setColor(Color.BLACK);
+        readFile();
+
+
     }
 
     @Override
@@ -30,11 +51,25 @@ public class AchievementState extends GameState{
     public void render() {
         sb.begin();
         exitS.render(sb);
+        font.draw(sb, topScore, GameConfig.GWIDTH / 2.2f, GameConfig.GHEIGHT / 1.5f);
         sb.end();
     }
 
     @Override
     public void dispose() {
+    }
 
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+    public void readFile() {
+        FileHandle f = Gdx.files.internal("data.txt");
+        topScore= f.readString();
     }
 }

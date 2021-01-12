@@ -10,59 +10,24 @@ apple
   orig: 16, 16
   offset: 0, 0
   index: -1
-head
+body
   rotate: false
   xy: 19, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-leftdown
+head
   rotate: false
   xy: 37, 1
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-leftup
-  rotate: false
-  xy: 55, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-rightdown
-  rotate: false
-  xy: 73, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-tail
-  rotate: false
-  xy: 91, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
 bunny
   rotate: false
-  xy: 109, 2
+  xy: 55, 2
   size: 16, 15
   orig: 16, 15
-  offset: 0, 0
-  index: -1
-horizontal
-  rotate: false
-  xy: 127, 2
-  size: 16, 15
-  orig: 16, 15
-  offset: 0, 0
-  index: -1
-rightup
-  rotate: false
-  xy: 145, 1
-  size: 15, 16
-  orig: 15, 16
   offset: 0, 0
   index: -1
