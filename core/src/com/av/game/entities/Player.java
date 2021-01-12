@@ -22,7 +22,8 @@ public class Player {
     private BodySnake head;
     private BodySnake tail;
     private boolean die;
-    float timeState;
+      float timeState;
+    public static float timeStateDK=0.2f;
     public Player(TextureAtlas atlas, float x, float y) {
         die = false;
         dir = Direction.RIGHT;
@@ -37,6 +38,7 @@ public class Player {
             BodySnake body = new BodySnake(atlas.findRegion(getBodyType(i)), SCALE * i, 0,Direction.RIGHT);
             snakeBody.add(body);
         }
+        //timeStateDK=0.2f;
         head = snakeBody.getFirst();
         tail = snakeBody.getLast();
     }
@@ -47,7 +49,7 @@ public class Player {
 
         timeState += dt;
 
-        if (timeState >= .2f) {
+        if (timeState >= timeStateDK) {
             //setAllDir();
 
             moveBody();
@@ -193,4 +195,7 @@ public class Player {
         }
     }
 
+    public static void setTimeStateDK(float timeStateDK) {
+        Player.timeStateDK = timeStateDK;
+    }
 }
