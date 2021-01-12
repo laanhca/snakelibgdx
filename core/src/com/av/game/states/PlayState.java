@@ -12,6 +12,7 @@ import com.av.game.main.GameStateManager;
 import com.av.game.main.MyGdxGame;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -22,6 +23,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.FileHandler;
 
 import static com.av.game.main.MyGdxGame.SCALE;
 
@@ -55,6 +62,7 @@ public class PlayState extends GameState {
         downB = new AVImgButton("down", SCALE*2+SCALE, SCALE, 2*SCALE, 2*SCALE, cam);
 //        score = new AVTextButton(10, GameConfig.GHEIGHT-SCALE-10, SCALE, SCALE, cam);
         scoreS = 0;
+
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AB.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -125,9 +133,31 @@ public class PlayState extends GameState {
             System.out.println(scoreS);}
         if(snake.die()==true){
             MyGdxGame.content.getSound("gameover").play();
+            FileHandle f = Gdx.files.local("data.txt");
+            String s= f.readString();
+            String[] scores = s.split("\n");
+            if(scores!=null && scoreS>Integer.parseInt(scores[0])){
+            //String[] tmp=scores;
+            f.writeString(String.valueOf(scoreS)+"\n",false);}
+//            if(scores.length >5  ){
+//                for(int i=0;i<scores.length;i++){
+//                    if(scoreS>Integer.parseInt(scores[i])){
+//                        tmp[i]= String.valueOf(scoreS);
+//                        for(int j=i+1;j<tmp.length;j++){
+//                            tmp[j]= scores[j-1];
+//                            //break;
+//                        }
+//
+//
+//                    }
+//                }
+//                f.writeString("",false);
+//                for (int i=0;i<tmp.length;i++){
+//                    f.writeString(tmp[i]+"\n",true);
+//                }
+//            }
+
             gsm.pushState(GameStateManager.MENU);}
-
-
     }
 
     @Override
