@@ -30,7 +30,7 @@ public class AVImgButton {
         this.cam = cam;
         this.s = s;
         vec = new Vector3();
-        reg = MyGdxGame.content.getAtlas("buttons").findRegion(s);
+        reg = MyGdxGame.content.getAtlas("btns").findRegion(s);
 
     }
 

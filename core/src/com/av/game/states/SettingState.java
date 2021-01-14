@@ -24,10 +24,10 @@ public class SettingState extends GameState{
         parameter.size = 128;
         font= generator.generateFont(parameter);
         font.setColor(Color.BLACK);
-        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        vol = new AVImgButton("Volume", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        upB = new AVImgButton("upVol", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2 +GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        downB = new AVImgButton("downVol", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2 +GameConfig.GWIDTH/10*3, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        vol = new AVImgButton("music", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        upB = new AVImgButton("up", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2 +GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        downB = new AVImgButton("down", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2 +GameConfig.GWIDTH/10*3, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
     }
 
     @Override

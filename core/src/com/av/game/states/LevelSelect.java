@@ -14,7 +14,7 @@ public class LevelSelect extends GameState{
     AVTextButton hard;
     public LevelSelect(GameStateManager gsm) {
         super(gsm);
-        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         easy = new AVTextButton( (GameConfig.GWIDTH-GameConfig.GWIDTH/10*4)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         medium = new AVTextButton( (GameConfig.GWIDTH-GameConfig.GWIDTH/10*6)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*3-GameConfig.GWIDTH/20, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         hard = new AVTextButton( (GameConfig.GWIDTH-GameConfig.GWIDTH/10*4)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*4-GameConfig.GWIDTH/20*2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);

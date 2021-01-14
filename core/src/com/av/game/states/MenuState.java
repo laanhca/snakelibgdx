@@ -25,9 +25,9 @@ public class MenuState extends GameState{
 //        textureRegion= new TextureRegion(new Texture(Gdx.files.internal("bg.png")));
         nameGame = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/10*5)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         play = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/15*11)/2-GameConfig.GWIDTH/15,GameConfig.GHEIGHT/3.5f,GameConfig.GWIDTH/15,GameConfig.GWIDTH/15,cam);
-        achivement = new AVImgButton("Achievements", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*4)/2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        levels = new AVImgButton("Levels", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*3)/2+GameConfig.GWIDTH/10, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        setting = new AVImgButton("Settings", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*2)/2+GameConfig.GWIDTH/10*2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        achivement = new AVImgButton("acvm", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*4)/2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        levels = new AVImgButton("level", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*3)/2+GameConfig.GWIDTH/10, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        setting = new AVImgButton("menu", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*2)/2+GameConfig.GWIDTH/10*2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         //exit = new AVImgButton("Close", 1050, 550, 50, 50, cam);
 //        background = new ParallaxBackground(new ParallaxLayer[]{
 //                new ParallaxLayer(textureRegion, new Vector2(1, 1), new Vector2(0, 0)),

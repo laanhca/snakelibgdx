@@ -1,6 +1,7 @@
 package com.av.game.main;
 
 import com.av.game.states.AchievementState;
+import com.av.game.states.GameOverState;
 import com.av.game.states.GameState;
 import com.av.game.states.LevelSelect;
 import com.av.game.states.MenuState;
@@ -26,6 +27,7 @@ public class GameStateManager {
     public static final int LEVEL_SELECT = -9238732;
     public static final int SETTING = -1212333;
     public static final int ACHIVEMENT = -1002333;
+    public static final int OVER = 121212333;
 
     TextureRegion textureRegion;
     ParallaxBackground background;
@@ -37,7 +39,7 @@ public class GameStateManager {
         background = new ParallaxBackground(new ParallaxLayer[]{
                 new ParallaxLayer(textureRegion, new Vector2(1, 1), new Vector2(0, 0)),
         }, GameConfig.GWIDTH, GameConfig.GHEIGHT, new Vector2(50, 0));
-        pushState(MENU);
+        pushState(OVER);
     }
 
     public void update(float dt) {
@@ -59,6 +61,7 @@ public class GameStateManager {
         if(state == LEVEL_SELECT) return new LevelSelect(this);
         if(state == SETTING) return new SettingState(this);
         if(state == ACHIVEMENT) return new AchievementState(this);
+        if(state == OVER) return new GameOverState(this);
         return null;
     }
 

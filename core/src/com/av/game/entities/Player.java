@@ -16,7 +16,7 @@ import static com.av.game.main.MyGdxGame.SCALE;
 public class Player {
     private static final int INITIAL_BODY_COUNT = 2;
     private LinkedList<BodySnake> snakeBody;
-
+    public static boolean gameOver;
     private TextureAtlas atlas;
     private Direction dir;
     private BodySnake head;
@@ -26,6 +26,7 @@ public class Player {
     public static float timeStateDK=0.2f;
     public Player(TextureAtlas atlas, float x, float y) {
         die = false;
+        gameOver=false;
         dir = Direction.RIGHT;
         this.atlas = atlas;
         snakeBody = new LinkedList<BodySnake>();
@@ -52,7 +53,7 @@ public class Player {
         if (timeState >= timeStateDK) {
             //setAllDir();
 
-            moveBody();
+            if(gameOver==false){moveBody();}
             //setShow();
             timeState = 0;
         }
@@ -175,6 +176,7 @@ public class Player {
     public boolean die(){
         for (int i = snakeBody.size() - 1; i > 0; i--) {
             if(head.isCollide(snakeBody.get(i))==true){
+                gameOver=true;
                 return die=true;
             }
           //  snakeBody.get(i).setPosition(snakeBody.get(i - 1).getX(),snakeBody.get(i - 1).getY());
@@ -197,5 +199,9 @@ public class Player {
 
     public static void setTimeStateDK(float timeStateDK) {
         Player.timeStateDK = timeStateDK;
+    }
+
+    public BodySnake getHead() {
+        return head;
     }
 }

@@ -16,13 +16,18 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,7 +45,7 @@ public class PlayState extends GameState {
     private AVImgButton upB;
     private AVImgButton downB;
 //    private AVTextButton score;
-    private int scoreS;
+    public static int scoreS;
     private BitmapFont font;
 
     private TiledMap tileMap;
@@ -55,7 +60,7 @@ public class PlayState extends GameState {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         leftB = new AVImgButton("left", SCALE, SCALE*2+SCALE, 2*SCALE, 2*SCALE, cam);
         rightB = new AVImgButton("right", SCALE*4+SCALE, SCALE*2+SCALE, 2*SCALE, 2*SCALE, cam);
         upB = new AVImgButton("up", SCALE*2+SCALE, SCALE*4+SCALE, 2*SCALE, 2*SCALE, cam);
@@ -123,7 +128,7 @@ public class PlayState extends GameState {
         downB.update(dt);
         randomBunny();
         snake.update(dt);
-
+        checkColMap(0,(int)snake.getHead().getX(),(int)snake.getHead().getY());
         if(snake.checkCol(bunny)==true){
             MyGdxGame.content.getSound("levelselect").play();
             scoreS++;
@@ -157,7 +162,8 @@ public class PlayState extends GameState {
 //                }
 //            }
 
-            gsm.pushState(GameStateManager.MENU);}
+            gsm.pushState(GameStateManager.OVER);
+             }
     }
 
     @Override
@@ -227,6 +233,21 @@ public class PlayState extends GameState {
         if(bunnyLost==true){
             bunny = new GameObject(MyGdxGame.content.getAtlas("snakeset").findRegion("bunny"), foodRandX(), foodRandY());
             bunnyLost=false;}
+    }
+    public void checkColMap(int objectLayerId,int x,int y){
+//        int objectLayerId = 1;
+        TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer)tileMap.getLayers().get("tree");
+        MapObjects objects = collisionObjectLayer.getObjects();
+
+// there are several other types, Rectangle is probably the most common one
+        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+
+            Rectangle rectangle = rectangleObject.getRectangle();
+            if (Intersector.overlaps(rectangle, new Rectangle(x+SCALE,y,SCALE,SCALE))) {
+                // collision happened
+                System.out.println("lozzzzz");
+            }
+        }
     }
 
 

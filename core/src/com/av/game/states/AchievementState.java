@@ -26,7 +26,7 @@ public class AchievementState extends GameState{
     public AchievementState(GameStateManager gsm) {
         super(gsm);
         topScoreB = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/20*10)/2-GameConfig.GWIDTH/20, GameConfig.GHEIGHT/1.5f, GameConfig.GWIDTH/20, GameConfig.GWIDTH/20, cam);
-        exitS = new AVImgButton("Close", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.2f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.2f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/AB.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 192;

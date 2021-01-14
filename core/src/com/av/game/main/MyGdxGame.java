@@ -32,7 +32,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(new AVInputProcessor());
 
 		content= new Content();
-		content.loadTextureAtlas("buttons/buttons.atlas");
+		content.loadTextureAtlas("buttons/btns.atlas");
+		//content.loadTextureAtlas("buttons/buttonnew.atlas");
 		content.loadTextureAtlas("buttons/snakeset.atlas");
 		content.loadSound("sfx/collect.wav");
 		content.loadSound("sfx/gameover.wav");

@@ -32,7 +32,7 @@ public class AVTextButton {
         this.cam = cam;
 
         vec = new Vector3();
-       reg = MyGdxGame.content.getAtlas("buttons").findRegion("Text");
+       reg = MyGdxGame.content.getAtlas("btns").findRegion("Text");
        loadText();
     }
 
