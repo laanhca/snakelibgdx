@@ -1,11 +1,9 @@
 package com.av.game.states;
 
 
-import com.av.game.entities.BodySnake;
 import com.av.game.entities.GameObject;
 import com.av.game.entities.Player;
 import com.av.game.handlers.AVImgButton;
-import com.av.game.handlers.AVTextButton;
 import com.av.game.main.Direction;
 import com.av.game.main.GameConfig;
 import com.av.game.main.GameStateManager;
@@ -16,24 +14,14 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.FileHandler;
 
 import static com.av.game.main.MyGdxGame.SCALE;
 
@@ -45,6 +33,8 @@ public class PlayState extends GameState {
     private AVImgButton upB;
     private AVImgButton downB;
     private AVImgButton vol;
+    private AVImgButton pauseB;
+    private AVImgButton resumeB;
     public static int scoreS;
     private BitmapFont font;
 
@@ -58,9 +48,13 @@ public class PlayState extends GameState {
     private Player snake;
     private boolean bunnyLost;
     private boolean volB;
+    private boolean isPause;
+
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
+        resumeB = new AVImgButton("left", GameConfig.GWIDTH - GameConfig.GWIDTH / 15 * 1.2f * 3, GameConfig.GHEIGHT - GameConfig.GWIDTH / 15 * 1.2f, GameConfig.GWIDTH / 15, GameConfig.GWIDTH / 15, cam);
+        pauseB = new AVImgButton("pause", GameConfig.GWIDTH - GameConfig.GWIDTH / 15 * 1.2f * 3, GameConfig.GHEIGHT - GameConfig.GWIDTH / 15 * 1.2f, GameConfig.GWIDTH / 15, GameConfig.GWIDTH / 15, cam);
         vol = new AVImgButton("music", GameConfig.GWIDTH - GameConfig.GWIDTH / 15 * 1.2f * 2, GameConfig.GHEIGHT - GameConfig.GWIDTH / 15 * 1.2f, GameConfig.GWIDTH / 15, GameConfig.GWIDTH / 15, cam);
         exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH - GameConfig.GWIDTH / 15 * 1.2f, GameConfig.GHEIGHT - GameConfig.GWIDTH / 15 * 1.2f, GameConfig.GWIDTH / 15, GameConfig.GWIDTH / 15, cam);
         leftB = new AVImgButton("left", GameConfig.GWIDTH / 30, GameConfig.GWIDTH / 30 * 2 + GameConfig.GWIDTH / 30, 2 * GameConfig.GWIDTH / 30, 2 * GameConfig.GWIDTH / 30, cam);
@@ -90,83 +84,106 @@ public class PlayState extends GameState {
 
     @Override
     public void handleInput() {
-        if (exitS.isClicked() == true) {
+
+        if (pauseB.isClicked()) {
             MyGdxGame.content.getSound("direct").play();
-            gsm.pushState(GameStateManager.MENU);
+            pauseB.setClicked(false);
+            if (!isPause) pause();
+            System.out.println(isPause);
         }
-        if (vol.isClicked() == true) {
+        if (resumeB.isClicked()) {
             MyGdxGame.content.getSound("direct").play();
-            if (volB == false) {
-                MyGdxGame.content.getMusic("bbsong").setVolume(0);
-                volB = true;
-            } else {
-                MyGdxGame.content.getMusic("bbsong").setVolume(0.5f);
-                volB = false;
+            resumeB.setClicked(false);
+            if (isPause) resume();
+            System.out.println("hihih");
+        }
+
+        if (!isPause) {
+            if (exitS.isClicked() == true) {
+                MyGdxGame.content.getSound("direct").play();
+                gsm.pushState(GameStateManager.MENU);
+            }
+            if (vol.isClicked() == true) {
+                MyGdxGame.content.getSound("direct").play();
+                if (volB == false) {
+                    MyGdxGame.content.getMusic("bbsong").setVolume(0);
+                    volB = true;
+                } else {
+                    MyGdxGame.content.getMusic("bbsong").setVolume(0.5f);
+                    volB = false;
+                }
+            }
+            if (leftB.isClicked() == true && snake.getDir() != Direction.RIGHT) {
+                MyGdxGame.content.getSound("direct").play();
+                // snake.setRotation(270);
+                snake.setDir(Direction.LEFT);
+                // gsm.pushState(GameStateManager.MENU);
+            }
+            if (rightB.isClicked() == true && snake.getDir() != Direction.LEFT) {
+                MyGdxGame.content.getSound("direct").play();
+                snake.setDir(Direction.RIGHT);
+                //snake.setRotation(90);
+                //gsm.pushState(GameStateManager.MENU);
+            }
+            if (upB.isClicked() == true && snake.getDir() != Direction.DOWN) {
+                MyGdxGame.content.getSound("direct").play();
+                snake.setDir(Direction.UP);
+                // snake.setRotation(180);
+                // gsm.pushState(GameStateManager.MENU);
+            }
+            if (downB.isClicked() == true && snake.getDir() != Direction.UP) {
+                MyGdxGame.content.getSound("direct").play();
+                snake.setDir(Direction.DOWN);
+                // snake.setRotation(0);
+                // gsm.pushState(GameStateManager.MENU);
             }
         }
-        if (leftB.isClicked() == true && snake.getDir() != Direction.RIGHT) {
-            MyGdxGame.content.getSound("direct").play();
-            // snake.setRotation(270);
-            snake.setDir(Direction.LEFT);
-            // gsm.pushState(GameStateManager.MENU);
-        }
-        if (rightB.isClicked() == true && snake.getDir() != Direction.LEFT) {
-            MyGdxGame.content.getSound("direct").play();
-            snake.setDir(Direction.RIGHT);
-            //snake.setRotation(90);
-            //gsm.pushState(GameStateManager.MENU);
-        }
-        if (upB.isClicked() == true && snake.getDir() != Direction.DOWN) {
-            MyGdxGame.content.getSound("direct").play();
-            snake.setDir(Direction.UP);
-            // snake.setRotation(180);
-            // gsm.pushState(GameStateManager.MENU);
-        }
-        if (downB.isClicked() == true && snake.getDir() != Direction.UP) {
-            MyGdxGame.content.getSound("direct").play();
-            snake.setDir(Direction.DOWN);
-            // snake.setRotation(0);
-            // gsm.pushState(GameStateManager.MENU);
-        }
+
     }
 
     @Override
     public void update(float dt) {
         handleInput();
-        exitS.update(dt);
-        leftB.update(dt);
-        rightB.update(dt);
-        upB.update(dt);
-        downB.update(dt);
-        vol.update(dt);
+        if (!isPause)
+        pauseB.update(dt);
+        else
+        resumeB.update(dt);
+        if (!isPause) {
+    exitS.update(dt);
+    leftB.update(dt);
+    rightB.update(dt);
+    upB.update(dt);
+    downB.update(dt);
+    vol.update(dt);
+
+    randomBunny();
+    while (checkColMap(0, bunny) == true) {
+        bunnyLost = true;
         randomBunny();
-        while (checkColMap(0, bunny) == true) {
-            bunnyLost = true;
-            randomBunny();
-        }
-        snake.update(dt);
-        if (checkColMap(0, snake.getHead()) == true) {
-            snake.setDie(true);
-        }
+    }
+    snake.update(dt);
+    if (checkColMap(0, snake.getHead()) == true) {
+        snake.setDie(true);
+    }
 
 
-        if (snake.checkCol(bunny) == true) {
-            MyGdxGame.content.getSound("levelselect").play();
-            scoreS++;
-            bunnyLost = true;
-            snake.grow();
+    if (snake.checkCol(bunny) == true) {
+        MyGdxGame.content.getSound("levelselect").play();
+        scoreS++;
+        bunnyLost = true;
+        snake.grow();
 
-            System.out.println(scoreS);
+        System.out.println(scoreS);
+    }
+    if (snake.isDie() == true || snake.die() == true) {
+        MyGdxGame.content.getSound("gameover").play();
+        FileHandle f = Gdx.files.local("data.txt");
+        String s = f.readString();
+        String[] scores = s.split("\n");
+        if (scores != null && scoreS > Integer.parseInt(scores[0])) {
+            //String[] tmp=scores;
+            f.writeString(String.valueOf(scoreS) + "\n", false);
         }
-        if (snake.isDie() == true || snake.die() == true) {
-            MyGdxGame.content.getSound("gameover").play();
-            FileHandle f = Gdx.files.local("data.txt");
-            String s = f.readString();
-            String[] scores = s.split("\n");
-            if (scores != null && scoreS > Integer.parseInt(scores[0])) {
-                //String[] tmp=scores;
-                f.writeString(String.valueOf(scoreS) + "\n", false);
-            }
 //            if(scores.length >5  ){
 //                for(int i=0;i<scores.length;i++){
 //                    if(scoreS>Integer.parseInt(scores[i])){
@@ -185,14 +202,25 @@ public class PlayState extends GameState {
 //                }
 //            }
 
-            gsm.pushState(GameStateManager.OVER);
-        }
+        gsm.pushState(GameStateManager.OVER);
+    }
+}
+
     }
 
     @Override
     public void render() {
 
         sb.begin();
+        if (isPause) {
+            font.draw(sb,"PAUSE GAME", 2*SCALE*2, GameConfig.GHEIGHT-2*SCALE);
+
+        }
+        if (!isPause)
+            pauseB.render(sb);
+        if (isPause) {
+            resumeB.render(sb);
+        }
 
         tmRenderer.setView(cam);
         tmRenderer.render();
@@ -206,7 +234,7 @@ public class PlayState extends GameState {
         leftB.render(sb);
         upB.render(sb);
         downB.render(sb);
-        if (bunnyLost == false) {
+        if (!bunnyLost) {
             bunny.draw(sb);
         }
 //        score.render(sb, "score");
@@ -221,12 +249,12 @@ public class PlayState extends GameState {
 
     @Override
     public void pause() {
-
+        isPause = true;
     }
 
     @Override
     public void resume() {
-
+        isPause= false;
     }
 
     public void loadMap() {
@@ -275,7 +303,7 @@ public class PlayState extends GameState {
                 if (cell != null) {
                     float cellX = i * tileSize;
                     float cellY = j * tileSize;
-                    if (((gameObject.getX() < cellX + tileSize) && (gameObject.getX() + gameObject.getWidth() > cellX) && (gameObject.getY() < cellY + tileSize) && (gameObject.getY() + gameObject.getHeight() > cellY)) == true) {
+                    if (((gameObject.getX() < cellX + tileSize) && (gameObject.getX() + gameObject.getWidth() > cellX) && (gameObject.getY() < cellY + tileSize) && (gameObject.getY() + gameObject.getHeight() > cellY))) {
                         System.out.println("da cham map");
                         return true;
 

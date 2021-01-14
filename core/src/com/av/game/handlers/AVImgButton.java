@@ -51,6 +51,10 @@ public class AVImgButton {
 
     }
 
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
     public void render(SpriteBatch sb) {
         sb.draw(reg,x,y,width,height);
     }
