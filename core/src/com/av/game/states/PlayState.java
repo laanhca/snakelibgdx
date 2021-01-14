@@ -44,7 +44,7 @@ public class PlayState extends GameState {
     private AVImgButton leftB;
     private AVImgButton upB;
     private AVImgButton downB;
-//    private AVTextButton score;
+    //    private AVTextButton score;
     public static int scoreS;
     private BitmapFont font;
 
@@ -60,11 +60,11 @@ public class PlayState extends GameState {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        leftB = new AVImgButton("left", SCALE, SCALE*2+SCALE, 2*SCALE, 2*SCALE, cam);
-        rightB = new AVImgButton("right", SCALE*4+SCALE, SCALE*2+SCALE, 2*SCALE, 2*SCALE, cam);
-        upB = new AVImgButton("up", SCALE*2+SCALE, SCALE*4+SCALE, 2*SCALE, 2*SCALE, cam);
-        downB = new AVImgButton("down", SCALE*2+SCALE, SCALE, 2*SCALE, 2*SCALE, cam);
+        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/15*1.2f, GameConfig.GHEIGHT-GameConfig.GWIDTH/15*1.2f, GameConfig.GWIDTH/15, GameConfig.GWIDTH/15, cam);
+        leftB = new AVImgButton("left", GameConfig.GWIDTH/30, GameConfig.GWIDTH/30 * 2 + GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, cam);
+        rightB = new AVImgButton("right", GameConfig.GWIDTH/30 * 4 + GameConfig.GWIDTH/30, GameConfig.GWIDTH/30 * 2 + GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, cam);
+        upB = new AVImgButton("up", GameConfig.GWIDTH/30 * 2 + GameConfig.GWIDTH/30, GameConfig.GWIDTH/30 * 4 + GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, cam);
+        downB = new AVImgButton("down", GameConfig.GWIDTH/30 * 2 + GameConfig.GWIDTH/30, GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, 2 * GameConfig.GWIDTH/30, cam);
 //        score = new AVTextButton(10, GameConfig.GHEIGHT-SCALE-10, SCALE, SCALE, cam);
         scoreS = 0;
 
@@ -73,17 +73,17 @@ public class PlayState extends GameState {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 64;
 
-       // font.setColor(Color.BLACK);
-        font= generator.generateFont(parameter);
+        // font.setColor(Color.BLACK);
+        font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
 
         tileMap = new TiledMap();
         loadMap();
-        bunnyLost=false;
-       snake = new Player(MyGdxGame.content.getAtlas("snakeset"), SCALE, SCALE*3);
-       // snake.setRotation(90); // quay lên
+        bunnyLost = false;
+        snake = new Player(MyGdxGame.content.getAtlas("snakeset"));
+        // snake.setRotation(90); // quay lên
         bunny = new GameObject(MyGdxGame.content.getAtlas("snakeset").findRegion("bunny"), foodRandX(), foodRandY());
-        System.out.println(bunny.getX()+"  "+bunny.getY());
+        System.out.println(bunny.getX() + "  " + bunny.getY());
     }
 
     @Override
@@ -92,29 +92,29 @@ public class PlayState extends GameState {
             MyGdxGame.content.getSound("direct").play();
             gsm.pushState(GameStateManager.MENU);
         }
-        if (leftB.isClicked() == true && snake.getDir()!=Direction.RIGHT) {
+        if (leftB.isClicked() == true && snake.getDir() != Direction.RIGHT) {
             MyGdxGame.content.getSound("direct").play();
-           // snake.setRotation(270);
+            // snake.setRotation(270);
             snake.setDir(Direction.LEFT);
-           // gsm.pushState(GameStateManager.MENU);
+            // gsm.pushState(GameStateManager.MENU);
         }
-        if (rightB.isClicked() == true&& snake.getDir()!=Direction.LEFT) {
+        if (rightB.isClicked() == true && snake.getDir() != Direction.LEFT) {
             MyGdxGame.content.getSound("direct").play();
             snake.setDir(Direction.RIGHT);
             //snake.setRotation(90);
             //gsm.pushState(GameStateManager.MENU);
         }
-        if (upB.isClicked() == true&& snake.getDir()!=Direction.DOWN) {
+        if (upB.isClicked() == true && snake.getDir() != Direction.DOWN) {
             MyGdxGame.content.getSound("direct").play();
             snake.setDir(Direction.UP);
-           // snake.setRotation(180);
-           // gsm.pushState(GameStateManager.MENU);
+            // snake.setRotation(180);
+            // gsm.pushState(GameStateManager.MENU);
         }
-        if (downB.isClicked() == true&& snake.getDir()!=Direction.UP) {
+        if (downB.isClicked() == true && snake.getDir() != Direction.UP) {
             MyGdxGame.content.getSound("direct").play();
             snake.setDir(Direction.DOWN);
-           // snake.setRotation(0);
-           // gsm.pushState(GameStateManager.MENU);
+            // snake.setRotation(0);
+            // gsm.pushState(GameStateManager.MENU);
         }
     }
 
@@ -126,24 +126,29 @@ public class PlayState extends GameState {
         rightB.update(dt);
         upB.update(dt);
         downB.update(dt);
-        randomBunny();
+       randomBunny();
+        while (checkColMap(0,  bunny)==true ){bunnyLost=true;randomBunny();}
         snake.update(dt);
-        checkColMap(0,(int)snake.getHead().getX(),(int)snake.getHead().getY());
-        if(snake.checkCol(bunny)==true){
+        if(checkColMap(0,  snake.getHead())==true){snake.setDie(true);}
+
+
+        if (snake.checkCol(bunny) == true) {
             MyGdxGame.content.getSound("levelselect").play();
             scoreS++;
-            bunnyLost=true;
+            bunnyLost = true;
             snake.grow();
 
-            System.out.println(scoreS);}
-        if(snake.die()==true){
+            System.out.println(scoreS);
+        }
+        if (snake.isDie() == true || snake.die()==true) {
             MyGdxGame.content.getSound("gameover").play();
             FileHandle f = Gdx.files.local("data.txt");
-            String s= f.readString();
+            String s = f.readString();
             String[] scores = s.split("\n");
-            if(scores!=null && scoreS>Integer.parseInt(scores[0])){
-            //String[] tmp=scores;
-            f.writeString(String.valueOf(scoreS)+"\n",false);}
+            if (scores != null && scoreS > Integer.parseInt(scores[0])) {
+                //String[] tmp=scores;
+                f.writeString(String.valueOf(scoreS) + "\n", false);
+            }
 //            if(scores.length >5  ){
 //                for(int i=0;i<scores.length;i++){
 //                    if(scoreS>Integer.parseInt(scores[i])){
@@ -163,26 +168,29 @@ public class PlayState extends GameState {
 //            }
 
             gsm.pushState(GameStateManager.OVER);
-             }
+        }
     }
 
     @Override
     public void render() {
 
         sb.begin();
-        exitS.render(sb);
+
         tmRenderer.setView(cam);
         tmRenderer.render();
 
 
-       snake.render(sb);
-        if(bunnyLost==false)bunny.draw(sb);
+        snake.render(sb);
+        exitS.render(sb);
+
+
         rightB.render(sb);
         leftB.render(sb);
         upB.render(sb);
         downB.render(sb);
+        if (bunnyLost == false ) {bunny.draw(sb);}
 //        score.render(sb, "score");
-        font.draw(sb,"Score: "+ String.valueOf(scoreS), 2*SCALE, GameConfig.GHEIGHT-2*SCALE);
+        font.draw(sb, "Score: " + String.valueOf(scoreS), 2 * SCALE, GameConfig.GHEIGHT - 2 * SCALE);
         sb.end();
     }
 
@@ -204,7 +212,7 @@ public class PlayState extends GameState {
     public void loadMap() {
         // load tile map and map renderer
         try {
-            tileMap = new TmxMapLoader().load("maps/level" + level + ".tmx");
+            tileMap = new TmxMapLoader().load("maps/levell" + level + ".tmx");
         } catch (Exception e) {
             System.out.println("Cannot find file: maps/level" + level + ".tmx");
             // Gdx.app.exit();
@@ -212,42 +220,62 @@ public class PlayState extends GameState {
         MapProperties prop = tileMap.getProperties();
         tileSize = (int) tileMap.getProperties().get("tilewidth");
         //tileMapWidth = (int) prop.get("width", Integer.class)*tileSize;
-        tileMapWidth = tileMap.getProperties().get("width",Integer.class)*tileSize;
+        tileMapWidth = tileMap.getProperties().get("width", Integer.class) * tileSize;
         //tileMapWidth = 18*tileSize;
-        tileMapHeight = (int) prop.get("height", Integer.class)*tileSize;
+        tileMapHeight = (int) prop.get("height", Integer.class) * tileSize;
         //tileMapHeight = 10*tileSize;
 
 
-        tmRenderer = new OrthogonalTiledMapRenderer(tileMap,GameConfig.GWIDTH/tileMapWidth);
+        tmRenderer = new OrthogonalTiledMapRenderer(tileMap);
 
 
     }
+
     private float foodRandX() {
-        return MathUtils.random(1, 12) * SCALE;
+        return MathUtils.random(1, 40) * tileSize;
     }
 
     private float foodRandY() {
-        return MathUtils.random(1, 8) * SCALE;
+        return MathUtils.random(1, 22) * tileSize;
     }
-    private void randomBunny(){
-        if(bunnyLost==true){
+
+    private void randomBunny() {
+        if (bunnyLost == true) {
             bunny = new GameObject(MyGdxGame.content.getAtlas("snakeset").findRegion("bunny"), foodRandX(), foodRandY());
-            bunnyLost=false;}
+            bunnyLost = false;
+        }
     }
-    public void checkColMap(int objectLayerId,int x,int y){
+
+    public boolean checkColMap( int objectLayerId,GameObject gameObject) {
 //        int objectLayerId = 1;
-        TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer)tileMap.getLayers().get("tree");
-        MapObjects objects = collisionObjectLayer.getObjects();
+        TiledMapTileLayer collisionObjectLayer = (TiledMapTileLayer) tileMap.getLayers().get(objectLayerId);
+        for (int i = 0; i < tileMap.getProperties().get("width", Integer.class); i++) {
+            for (int j = 0; j < tileMap.getProperties().get("height", Integer.class); j++) {
+                TiledMapTileLayer.Cell cell = collisionObjectLayer.getCell(i, j);
+                if (cell != null) {
+                    float cellX= i*tileSize;
+                    float cellY= j*tileSize;
+                    if(((gameObject.getX()<cellX+tileSize)&&(gameObject.getX()+gameObject.getWidth()>cellX)&&(gameObject.getY()<cellY+tileSize)&&(gameObject.getY()+gameObject.getHeight()>cellY))==true){
+                        System.out.println("da cham map");
+                        return true;
 
-// there are several other types, Rectangle is probably the most common one
-        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+                    }
 
-            Rectangle rectangle = rectangleObject.getRectangle();
-            if (Intersector.overlaps(rectangle, new Rectangle(x+SCALE,y,SCALE,SCALE))) {
-                // collision happened
-                System.out.println("lozzzzz");
+                }
             }
         }
+
+
+// there are several other types, Rectangle is probably the most common one
+//        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+//
+//            Rectangle rectangle = rectangleObject.getRectangle();
+//            if (Intersector.overlaps(rectangle, new Rectangle(x+SCALE,y,SCALE,SCALE))) {
+//                // collision happened
+//                System.out.println("lozzzzz");
+//            }
+//        }
+        return false;
     }
 
 

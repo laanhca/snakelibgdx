@@ -16,7 +16,6 @@ import static com.av.game.main.MyGdxGame.SCALE;
 public class Player {
     private static final int INITIAL_BODY_COUNT = 2;
     private LinkedList<BodySnake> snakeBody;
-    public static boolean gameOver;
     private TextureAtlas atlas;
     private Direction dir;
     private BodySnake head;
@@ -24,9 +23,8 @@ public class Player {
     private boolean die;
       float timeState;
     public static float timeStateDK=0.2f;
-    public Player(TextureAtlas atlas, float x, float y) {
+    public Player(TextureAtlas atlas) {
         die = false;
-        gameOver=false;
         dir = Direction.RIGHT;
         this.atlas = atlas;
         snakeBody = new LinkedList<BodySnake>();
@@ -36,7 +34,7 @@ public class Player {
     public void init(){
         snakeBody.clear();
         for (int i = INITIAL_BODY_COUNT; i >= 0; i--) {
-            BodySnake body = new BodySnake(atlas.findRegion(getBodyType(i)), SCALE * i, 0,Direction.RIGHT);
+            BodySnake body = new BodySnake(atlas.findRegion(getBodyType(i)), PlayState.tileSize * i+SCALE*3, PlayState.tileSize,Direction.RIGHT);
             snakeBody.add(body);
         }
         //timeStateDK=0.2f;
@@ -53,7 +51,7 @@ public class Player {
         if (timeState >= timeStateDK) {
             //setAllDir();
 
-            if(gameOver==false){moveBody();}
+           moveBody();
             //setShow();
             timeState = 0;
         }
@@ -176,7 +174,6 @@ public class Player {
     public boolean die(){
         for (int i = snakeBody.size() - 1; i > 0; i--) {
             if(head.isCollide(snakeBody.get(i))==true){
-                gameOver=true;
                 return die=true;
             }
           //  snakeBody.get(i).setPosition(snakeBody.get(i - 1).getX(),snakeBody.get(i - 1).getY());
@@ -199,6 +196,14 @@ public class Player {
 
     public static void setTimeStateDK(float timeStateDK) {
         Player.timeStateDK = timeStateDK;
+    }
+
+    public boolean isDie() {
+        return die;
+    }
+
+    public void setDie(boolean die) {
+        this.die = die;
     }
 
     public BodySnake getHead() {

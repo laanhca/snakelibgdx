@@ -13,7 +13,7 @@ import static com.av.game.main.MyGdxGame.SCALE;
 
 public class SettingState extends GameState{
     AVImgButton exitS;
-    AVImgButton vol;
+    //AVImgButton vol;
     AVImgButton upB;
     AVImgButton downB;
     private  BitmapFont font;
@@ -24,8 +24,8 @@ public class SettingState extends GameState{
         parameter.size = 128;
         font= generator.generateFont(parameter);
         font.setColor(Color.BLACK);
-        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        vol = new AVImgButton("music", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        exitS = new AVImgButton("exit_btn", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.2f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.2f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        //vol = new AVImgButton("music", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2-GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         upB = new AVImgButton("up", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2 +GameConfig.GWIDTH/10, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
         downB = new AVImgButton("down", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2 +GameConfig.GWIDTH/10*3, GameConfig.GHEIGHT/2, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
     }
@@ -42,17 +42,17 @@ public class SettingState extends GameState{
             MyGdxGame.content.getSound("direct").play();
             MyGdxGame.content.getMusic("bbsong").setVolume(0);
         }
-        if(vol.isClicked()==true){
-            MyGdxGame.content.getSound("direct").play();
-            MyGdxGame.content.getMusic("bbsong").setVolume(0.5f);
-        }
+//        if(vol.isClicked()==true){
+//            MyGdxGame.content.getSound("direct").play();
+//            MyGdxGame.content.getMusic("bbsong").setVolume(0.5f);
+//        }
     }
 
     @Override
     public void update(float dt) {
         handleInput();
         exitS.update(dt);
-        vol.update(dt);
+        //vol.update(dt);
         upB.update(dt);
         downB.update(dt);
 
@@ -63,7 +63,7 @@ public class SettingState extends GameState{
         sb.begin();
         font.draw(sb,"Set volume:  ",GameConfig.GWIDTH/10,GameConfig.GHEIGHT/2 + GameConfig.GWIDTH/12);
         exitS.render(sb);
-        vol.render(sb);
+        //vol.render(sb);
         upB.render(sb);
         downB.render(sb);
         sb.end();

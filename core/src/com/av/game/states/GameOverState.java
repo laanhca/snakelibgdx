@@ -30,11 +30,11 @@ public class GameOverState extends GameState {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 192;
         font= generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
+        font.setColor(Color.RED);
         overGame = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/20*9)/2-GameConfig.GWIDTH/20, GameConfig.GHEIGHT-GameConfig.GWIDTH/20*2, GameConfig.GWIDTH/20, GameConfig.GWIDTH/20, cam);
         score = new AVTextButton((GameConfig.GWIDTH-GameConfig.GWIDTH/25*10)/2-GameConfig.GWIDTH/25, GameConfig.GHEIGHT-GameConfig.GWIDTH/20*4, GameConfig.GWIDTH/25, GameConfig.GWIDTH/25, cam);
-        exitS = new AVImgButton("home", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.1f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.1f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
-        home = new AVImgButton("restart", (GameConfig.GWIDTH-GameConfig.GWIDTH/10*3)/2+GameConfig.GWIDTH/10, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        exitS = new AVImgButton("home", GameConfig.GWIDTH-GameConfig.GWIDTH/10*1.2f, GameConfig.GHEIGHT-GameConfig.GWIDTH/10*1.2f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
+        home = new AVImgButton("restart", (GameConfig.GWIDTH-GameConfig.GWIDTH/10)/2, GameConfig.GHEIGHT/15f, GameConfig.GWIDTH/10, GameConfig.GWIDTH/10, cam);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class GameOverState extends GameState {
         home.render(sb);
         overGame.render(sb,"game over");
         score.render(sb,"your score");
-        font.draw(sb,String.valueOf(PlayState.scoreS),(GameConfig.GWIDTH-198*5),GameConfig.GHEIGHT-GameConfig.GWIDTH/20*5);
+        font.draw(sb,String.valueOf(PlayState.scoreS),GameConfig.GWIDTH / 2.1f, GameConfig.GHEIGHT /2f);
         sb.end();
     }
 

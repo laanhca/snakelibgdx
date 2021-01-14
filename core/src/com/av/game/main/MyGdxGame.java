@@ -25,7 +25,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	public static Content content;
-	public static final int SCALE= 64;
+	public static final int SCALE= 32;
 
 	@Override
 	public void create () {

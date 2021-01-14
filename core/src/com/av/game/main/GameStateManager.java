@@ -39,7 +39,7 @@ public class GameStateManager {
         background = new ParallaxBackground(new ParallaxLayer[]{
                 new ParallaxLayer(textureRegion, new Vector2(1, 1), new Vector2(0, 0)),
         }, GameConfig.GWIDTH, GameConfig.GHEIGHT, new Vector2(50, 0));
-        pushState(OVER);
+        pushState(MENU);
     }
 
     public void update(float dt) {
