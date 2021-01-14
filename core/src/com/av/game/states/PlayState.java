@@ -100,7 +100,7 @@ public class PlayState extends GameState {
                 MyGdxGame.content.getMusic("bbsong").setVolume(0);
                 volB = true;
             } else {
-                MyGdxGame.content.getMusic("bbsong").setVolume(0.5);
+                MyGdxGame.content.getMusic("bbsong").setVolume(0.5f);
                 volB = false;
             }
         }
