@@ -29,17 +29,17 @@ public class LevelSelect extends GameState{
         }
         if(easy.isClicked()==true){
             MyGdxGame.content.getSound("direct").play();
-            Player.setTimeStateDK(0.2f);
+            PlayState.level=0;
             gsm.pushState(GameStateManager.MENU);
         }
         if(medium.isClicked()==true){
             MyGdxGame.content.getSound("direct").play();
-            Player.setTimeStateDK(0.15f);
+            PlayState.level=1;
             gsm.pushState(GameStateManager.MENU);
         }
         if(hard.isClicked()==true){
             MyGdxGame.content.getSound("direct").play();
-            Player.setTimeStateDK(0.09f);
+            PlayState.level=2;
             gsm.pushState(GameStateManager.MENU);
         }
     }

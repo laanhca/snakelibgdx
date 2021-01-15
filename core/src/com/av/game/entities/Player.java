@@ -22,7 +22,7 @@ public class Player {
     private BodySnake tail;
     private boolean die;
       float timeState;
-    public static float timeStateDK=0.2f;
+    public static float timeStateDK=0.25f;
     public Player(TextureAtlas atlas) {
         die = false;
         dir = Direction.RIGHT;

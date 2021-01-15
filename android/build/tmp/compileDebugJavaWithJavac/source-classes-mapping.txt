@@ -1,0 +1,10 @@
+com/av/game/R.java
+ com.av.game.R
+ com.av.game.R$color
+ com.av.game.R$drawable
+ com.av.game.R$string
+ com.av.game.R$style
+com/av/game/BuildConfig.java
+ com.av.game.BuildConfig
+com/av/game/AndroidLauncher.java
+ com.av.game.AndroidLauncher
