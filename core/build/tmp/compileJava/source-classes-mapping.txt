@@ -16,26 +16,26 @@ com/av/game/handlers/Content.java
  com.av.game.handlers.Content
 com/av/game/states/ParallaxLayer.java
  com.av.game.states.ParallaxLayer
-com/av/game/states/AchievementState.java
- com.av.game.states.AchievementState
+com/av/game/main/GameConfig.java
+ com.av.game.main.GameConfig
 com/av/game/states/MenuState.java
  com.av.game.states.MenuState
 com/av/game/handlers/AVInput.java
  com.av.game.handlers.AVInput
-com/av/game/states/GameOverState.java
- com.av.game.states.GameOverState
+com/av/game/handlers/AVImgButton.java
+ com.av.game.handlers.AVImgButton
 com/av/game/states/ParallaxBackground.java
  com.av.game.states.ParallaxBackground
 com/av/game/main/Direction.java
  com.av.game.main.Direction
-com/av/game/handlers/AVImgButton.java
- com.av.game.handlers.AVImgButton
-com/av/game/main/GameConfig.java
- com.av.game.main.GameConfig
 com/av/game/main/GameStateManager.java
  com.av.game.main.GameStateManager
+com/av/game/states/AchievementState.java
+ com.av.game.states.AchievementState
 com/av/game/states/LevelSelect.java
  com.av.game.states.LevelSelect
+com/av/game/states/GameOverState.java
+ com.av.game.states.GameOverState
 com/av/game/entities/Player.java
  com.av.game.entities.Player
 com/av/game/states/PlayState.java

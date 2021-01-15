@@ -178,6 +178,9 @@ public class PlayState extends GameState {
     if (snake.isDie() == true || snake.die() == true) {
         MyGdxGame.content.getSound("gameover").play();
         FileHandle f = Gdx.files.local("data.txt");
+        if(!f.exists()){
+
+            f.writeString("0", false);}
         String s = f.readString();
         String[] scores = s.split("\n");
         if (scores != null && scoreS > Integer.parseInt(scores[0])) {
